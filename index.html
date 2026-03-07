@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroCalcul — Politique de confidentialité</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #060818;
+      --surface:   #0d1230;
+      --border:    rgba(100,140,255,0.15);
+      --accent:    #7eb3ff;
+      --yellow:    #ffd84d;
+      --text:      #c8d4f0;
+      --muted:     rgba(200,212,240,0.45);
+      --radius:    16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Étoiles ── */
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: var(--a1, 0.1); transform: scale(1); }
+      to   { opacity: var(--a2, 0.6); transform: scale(1.3); }
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 72px 24px 48px;
+    }
+    .rocket { font-size: 56px; display: block; margin-bottom: 20px;
+      animation: float 4s ease-in-out infinite; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: var(--yellow);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    /* ── Layout ── */
+    main {
+      position: relative; z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Carte info rapide ── */
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .qi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .qi-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .qi-label { font-size: 11px; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 3px; }
+    .qi-value { font-size: 14px; font-weight: 600; color: white; }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-icon { font-size: 22px; }
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+    .section-body {
+      padding: 20px 24px 24px;
+    }
+    .section-body p { margin-bottom: 12px; color: var(--text); font-size: 15px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── Liste à puces custom ── */
+    ul.custom {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    ul.custom li {
+      padding: 8px 0 8px 28px;
+      position: relative;
+      font-size: 15px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(100,140,255,0.07);
+    }
+    ul.custom li:last-child { border-bottom: none; }
+    ul.custom li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ── Badge "Aucune donnée" ── */
+    .badge-none {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(80,220,130,0.12);
+      border: 1px solid rgba(80,220,130,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #50dc82;
+      margin-bottom: 16px;
+    }
+
+    /* ── Contact ── */
+    .contact-box {
+      background: linear-gradient(135deg,
+        rgba(126,179,255,0.08),
+        rgba(255,216,77,0.06));
+      border: 1px solid rgba(126,179,255,0.25);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .contact-box p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+    .contact-box a {
+      color: var(--yellow);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+    }
+    .contact-box a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 0 24px 48px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer span { color: var(--accent); }
+
+    /* ── Langue selector ── */
+    .lang-bar {
+      position: relative; z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 24px 0 0;
+      margin-bottom: -12px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.2s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: rgba(126,179,255,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Sections multilingues ── */
+    [data-lang] { display: none; }
+    [data-lang].visible { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Étoiles -->
+<div class="stars" id="stars"></div>
+
+<!-- Sélecteur langue -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('fr')">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('nl')">🇧🇪 Nederlands</button>
+  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<!-- Header -->
+<header>
+  <span class="rocket">🚀</span>
+  <h1>AstroCalcul</h1>
+  <p data-lang="fr" class="visible">Politique de confidentialité</p>
+  <p data-lang="nl">Privacybeleid</p>
+  <p data-lang="en">Privacy Policy</p>
+</header>
+
+<main>
+
+  <!-- Cartes rapides -->
+  <div class="quick-info">
+    <div class="qi-card">
+      <div class="qi-icon">📅</div>
+      <div>
+        <div class="qi-label" data-lang="fr" class="visible">Dernière mise à jour</div>
+        <div class="qi-label" data-lang="nl">Laatste update</div>
+        <div class="qi-label" data-lang="en">Last updated</div>
+        <div class="qi-value">Mars 2026</div>
+      </div>
+    </div>
+    <div class="qi-card">
+      <div class="qi-icon">👶</div>
+      <div>
+        <div class="qi-label" data-lang="fr" class="visible">Public cible</div>
+        <div class="qi-label" data-lang="nl">Doelgroep</div>
+        <div class="qi-label" data-lang="en">Target audience</div>
+        <div class="qi-value" data-lang="fr" class="visible">Enfants 6–10 ans</div>
+        <div class="qi-value" data-lang="nl">Kinderen 6–10 jaar</div>
+        <div class="qi-value" data-lang="en">Children 6–10 years</div>
+      </div>
+    </div>
+    <div class="qi-card">
+      <div class="qi-icon">🌍</div>
+      <div>
+        <div class="qi-label">Langues</div>
+        <div class="qi-value">FR · NL · EN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FR -->
+  <div data-lang="fr" class="visible">
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛡️</span>
+        <span class="section-title">Notre engagement</span>
+      </div>
+      <div class="section-body">
+        <div class="badge-none">✓ Aucune donnée collectée</div>
+        <p>AstroCalcul est une application éducative conçue pour les enfants de 6 à 10 ans. Nous prenons la protection de la vie privée au sérieux, en particulier celle des enfants.</p>
+        <p><strong style="color:white">AstroCalcul ne collecte, ne transmet, ni ne partage aucune donnée personnelle.</strong> Tout fonctionne entièrement en local sur votre appareil.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">💾</span>
+        <span class="section-title">Données stockées localement</span>
+      </div>
+      <div class="section-body">
+        <p>Les données suivantes sont sauvegardées uniquement sur l'appareil, via <code style="color:var(--accent)">UserDefaults</code> iOS :</p>
+        <ul class="custom">
+          <li>Prénoms et avatars des profils enfants</li>
+          <li>Historique des sessions d'exercices</li>
+          <li>Badges, niveaux et progression</li>
+          <li>Préférences de langue et de difficulté</li>
+          <li>Solde AstroPièces par profil</li>
+        </ul>
+        <p>Ces données ne quittent jamais l'appareil et ne sont accessibles à personne d'autre que l'utilisateur.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🔒</span>
+        <span class="section-title">Contrôle parental</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul intègre un système de contrôle parental protégé par Face ID ou code PIN. Les paramètres sensibles (réinitialisation, gestion des profils, ajustement des AstroPièces) ne sont accessibles qu'aux parents.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛒</span>
+        <span class="section-title">Achats intégrés</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul propose un achat intégré unique <strong style="color:white">AstroCalcul Premium</strong> (non-consommable). Cet achat est traité de manière sécurisée par Apple via StoreKit. Aucune information de paiement ne transite par nos serveurs — nous n'en avons pas.</p>
+        <p>La politique de confidentialité d'Apple s'applique aux transactions : <a href="https://www.apple.com/legal/privacy/fr-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🌐</span>
+        <span class="section-title">Pas de connexion internet</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul fonctionne entièrement hors ligne. L'application ne contacte aucun serveur externe, n'affiche aucune publicité et n'intègre aucun SDK tiers de traçage ou d'analyse.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">👨‍👩‍👧</span>
+        <span class="section-title">Conformité COPPA & RGPD</span>
+      </div>
+      <div class="section-body">
+        <p>Conformément au COPPA (Children's Online Privacy Protection Act) et au RGPD européen, AstroCalcul :</p>
+        <ul class="custom">
+          <li>Ne collecte aucune information personnelle identifiable</li>
+          <li>N'exige aucune inscription ni création de compte en ligne</li>
+          <li>Ne contient aucune publicité</li>
+          <li>Ne permet aucun contact social ou partage en ligne</li>
+          <li>N'utilise aucun cookie ni système de suivi</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">✉️</span>
+        <span class="section-title">Contact</span>
+      </div>
+      <div class="section-body">
+        <div class="contact-box">
+          <p>Pour toute question concernant cette politique de confidentialité :</p>
+          <a href="mailto:privacy@astrocalcul.app">privacy@astrocalcul.app</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /fr -->
+
+  <!-- NL -->
+  <div data-lang="nl">
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛡️</span>
+        <span class="section-title">Onze belofte</span>
+      </div>
+      <div class="section-body">
+        <div class="badge-none">✓ Geen gegevens verzameld</div>
+        <p>AstroCalcul is een educatieve app voor kinderen van 6 tot 10 jaar. We nemen privacy serieus, vooral die van kinderen.</p>
+        <p><strong style="color:white">AstroCalcul verzamelt, verzendt of deelt geen persoonlijke gegevens.</strong> Alles werkt volledig lokaal op uw apparaat.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">💾</span>
+        <span class="section-title">Lokaal opgeslagen gegevens</span>
+      </div>
+      <div class="section-body">
+        <p>De volgende gegevens worden uitsluitend opgeslagen op het apparaat via <code style="color:var(--accent)">UserDefaults</code> iOS:</p>
+        <ul class="custom">
+          <li>Voornamen en avatars van kinderprofielen</li>
+          <li>Geschiedenis van oefensessies</li>
+          <li>Badges, niveaus en voortgang</li>
+          <li>Taal- en moeilijkheidsvoorkeuren</li>
+          <li>AstroPieces-saldo per profiel</li>
+        </ul>
+        <p>Deze gegevens verlaten het apparaat nooit en zijn voor niemand anders toegankelijk.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🔒</span>
+        <span class="section-title">Ouderlijk toezicht</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul heeft een ouderlijk toezichtsysteem beveiligd met Face ID of pincode. Gevoelige instellingen zijn alleen toegankelijk voor ouders.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛒</span>
+        <span class="section-title">In-app aankopen</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul biedt één in-app aankoop <strong style="color:white">AstroCalcul Premium</strong>. Deze aankoop wordt veilig verwerkt door Apple via StoreKit. Er zijn geen eigen servers betrokken.</p>
+        <p>Het privacybeleid van Apple is van toepassing: <a href="https://www.apple.com/legal/privacy/nl-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🌐</span>
+        <span class="section-title">Geen internetverbinding vereist</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul werkt volledig offline. De app maakt geen verbinding met externe servers, toont geen advertenties en bevat geen tracking-SDK's van derden.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">👨‍👩‍👧</span>
+        <span class="section-title">COPPA & AVG conformiteit</span>
+      </div>
+      <div class="section-body">
+        <p>In overeenstemming met COPPA en de Europese AVG (GDPR):</p>
+        <ul class="custom">
+          <li>Geen persoonlijk identificeerbare informatie verzameld</li>
+          <li>Geen online registratie of account vereist</li>
+          <li>Geen advertenties</li>
+          <li>Geen sociale functies of online delen</li>
+          <li>Geen cookies of trackingsystemen</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">✉️</span>
+        <span class="section-title">Contact</span>
+      </div>
+      <div class="section-body">
+        <div class="contact-box">
+          <p>Voor vragen over dit privacybeleid:</p>
+          <a href="mailto:privacy@astrocalcul.app">privacy@astrocalcul.app</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /nl -->
+
+  <!-- EN -->
+  <div data-lang="en">
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛡️</span>
+        <span class="section-title">Our commitment</span>
+      </div>
+      <div class="section-body">
+        <div class="badge-none">✓ No data collected</div>
+        <p>AstroCalcul is an educational app designed for children aged 6 to 10. We take privacy seriously, especially children's privacy.</p>
+        <p><strong style="color:white">AstroCalcul does not collect, transmit, or share any personal data.</strong> Everything works entirely locally on your device.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">💾</span>
+        <span class="section-title">Locally stored data</span>
+      </div>
+      <div class="section-body">
+        <p>The following data is saved only on the device, using iOS <code style="color:var(--accent)">UserDefaults</code>:</p>
+        <ul class="custom">
+          <li>Child profile names and avatars</li>
+          <li>Exercise session history</li>
+          <li>Badges, levels and progression</li>
+          <li>Language and difficulty preferences</li>
+          <li>AstroPièces balance per profile</li>
+        </ul>
+        <p>This data never leaves the device and is not accessible to anyone else.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🔒</span>
+        <span class="section-title">Parental controls</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul includes a parental control system protected by Face ID or PIN code. Sensitive settings are only accessible to parents.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🛒</span>
+        <span class="section-title">In-app purchases</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul offers a single in-app purchase <strong style="color:white">AstroCalcul Premium</strong> (non-consumable). This purchase is processed securely by Apple via StoreKit. No payment information passes through our servers — we don't have any.</p>
+        <p>Apple's privacy policy applies to transactions: <a href="https://www.apple.com/legal/privacy/en-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🌐</span>
+        <span class="section-title">No internet connection required</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul works entirely offline. The app does not contact any external servers, displays no advertising, and integrates no third-party tracking or analytics SDKs.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">👨‍👩‍👧</span>
+        <span class="section-title">COPPA & GDPR compliance</span>
+      </div>
+      <div class="section-body">
+        <p>In compliance with COPPA and the European GDPR:</p>
+        <ul class="custom">
+          <li>No personally identifiable information collected</li>
+          <li>No online registration or account required</li>
+          <li>No advertising</li>
+          <li>No social features or online sharing</li>
+          <li>No cookies or tracking systems</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">✉️</span>
+        <span class="section-title">Contact</span>
+      </div>
+      <div class="section-body">
+        <div class="contact-box">
+          <p>For any questions regarding this privacy policy:</p>
+          <a href="mailto:privacy@astrocalcul.app">privacy@astrocalcul.app</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /en -->
+
+</main>
+
+<footer>
+  <p>© 2026 AstroCalcul · <span>privacy@astrocalcul.app</span></p>
+</footer>
+
+<script>
+  // Étoiles
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      --d:${2+Math.random()*4}s;
+      --a1:${0.05+Math.random()*0.15};
+      --a2:${0.3+Math.random()*0.5};
+      animation-delay:${Math.random()*5}s;
+    `;
+    container.appendChild(s);
+  }
+
+  // Langue
+  function setLang(lang) {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('visible', el.dataset.lang === lang);
+    });
+    document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', ['fr','nl','en'][i] === lang);
+    });
+  }
+
+  // Détecter langue navigateur
+  const browserLang = navigator.language.slice(0,2);
+  if (['nl','en'].includes(browserLang)) setLang(browserLang);
+</script>
+</body>
+</html>
