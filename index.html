@@ -44,14 +44,21 @@
       to   { opacity: var(--a2, 0.6); transform: scale(1.3); }
     }
 
-    /* ── Header ── */
+    /* ── Header & Logo ── */
     header {
       position: relative; z-index: 1;
       text-align: center;
-      padding: 72px 24px 48px;
+      padding: 60px 24px 48px;
     }
-    .rocket { font-size: 56px; display: block; margin-bottom: 20px;
-      animation: float 4s ease-in-out infinite; }
+    .app-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(126, 179, 255, 0.2);
+      animation: float 4s ease-in-out infinite;
+    }
     @keyframes float {
       0%,100% { transform: translateY(0); }
       50%      { transform: translateY(-12px); }
@@ -236,7 +243,7 @@
 </div>
 
 <header>
-  <span class="rocket">🚀</span>
+  <img src="logo.png" alt="AstroCalcul Logo" class="app-logo" onerror="this.style.display='none';">
   <h1>AstroCalcul</h1>
   <p data-lang="fr" class="visible">Politique de confidentialité</p>
   <p data-lang="nl">Privacybeleid</p>
@@ -252,7 +259,9 @@
         <div class="qi-label" data-lang="fr" class="visible">Dernière mise à jour</div>
         <div class="qi-label" data-lang="nl">Laatste update</div>
         <div class="qi-label" data-lang="en">Last updated</div>
-        <div class="qi-value">Mars 2026</div>
+        <div class="qi-value" data-lang="fr" class="visible">Mai 2026</div>
+        <div class="qi-value" data-lang="nl">Mei 2026</div>
+        <div class="qi-value" data-lang="en">May 2026</div>
       </div>
     </div>
     <div class="qi-card">
@@ -283,9 +292,9 @@
         <span class="section-title">Notre engagement</span>
       </div>
       <div class="section-body">
-        <div class="badge-none">✓ Aucune donnée collectée</div>
-        <p>AstroCalcul est une application éducative conçue pour les enfants de 6 à 10 ans. Nous prenons la protection de la vie privée au sérieux, en particulier celle des enfants.</p>
-        <p><strong style="color:white">AstroCalcul ne collecte, ne transmet, ni ne partage aucune donnée personnelle.</strong> Tout fonctionne entièrement en local sur votre appareil.</p>
+        <div class="badge-none">✓ Sécurité & Confidentialité</div>
+        <p>AstroCalcul est une application éducative conçue pour les enfants de 6 à 10 ans. Nous prenons la protection de la vie privée au sérieux, en particulier celle des plus jeunes.</p>
+        <p><strong style="color:white">AstroCalcul ne collecte, ne vend ni ne partage aucune donnée personnelle à des fins publicitaires.</strong> L'environnement est entièrement sécurisé et sans publicité.</p>
       </div>
     </section>
 
@@ -295,15 +304,29 @@
         <span class="section-title">Données stockées localement</span>
       </div>
       <div class="section-body">
-        <p>Les données suivantes sont sauvegardées uniquement sur l'appareil, via <code style="color:var(--accent)">UserDefaults</code> iOS :</p>
+        <p>Pour assurer le suivi pédagogique sans créer de compte en ligne obligatoire, les données suivantes sont sauvegardées uniquement sur l'appareil de l'utilisateur :</p>
         <ul class="custom">
           <li>Prénoms et avatars des profils enfants</li>
-          <li>Historique des sessions d'exercices</li>
-          <li>Badges, niveaux et progression</li>
+          <li>Historique des sessions d'exercices et taux de réussite</li>
+          <li>Badges, niveaux et progression globale</li>
           <li>Préférences de langue et de difficulté</li>
           <li>Solde AstroPièces par profil</li>
         </ul>
-        <p>Ces données ne quittent jamais l'appareil et ne sont accessibles à personne d'autre que l'utilisateur.</p>
+        <p>Ces informations restent sous votre contrôle exclusif et sont effacées si vous désinstallez l'application.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">☁️</span>
+        <span class="section-title">Services tiers et Synchronisation (Firebase)</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul utilise les outils de <strong>Firebase (Google LLC)</strong> pour deux besoins précis :</p>
+        <ul class="custom">
+          <li><strong>Synchronisation optionnelle :</strong> Si les parents l'activent, les profils et scores sont sauvegardés de manière chiffrée via Firebase pour retrouver sa progression sur un autre appareil du foyer.</li>
+          <li><strong>Stabilité de l'application :</strong> Nous collectons des rapports techniques anonymes (via Firebase Crashlytics) en cas de bug ou de fermeture inattendue de l'application, afin d'assurer une correction rapide. Aucune donnée nominative n'est incluse.</li>
+        </ul>
       </div>
     </section>
 
@@ -313,7 +336,7 @@
         <span class="section-title">Contrôle parental</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul intègre un système de contrôle parental protégé par Face ID ou code PIN. Les paramètres sensibles (réinitialisation, gestion des profils, ajustement des AstroPièces) ne sont accessibles qu'aux parents.</p>
+        <p>AstroCalcul intègre un système de contrôle parental protégé. Les paramètres sensibles (gestion des profils, configuration de la synchronisation, ajustements de la boutique) ne sont accessibles qu'aux adultes.</p>
       </div>
     </section>
 
@@ -323,18 +346,12 @@
         <span class="section-title">Achats intégrés</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul propose un achat intégré unique <strong style="color:white">AstroCalcul Premium</strong> (non-consommable). Cet achat est traité de manière sécurisée par Apple via StoreKit. Aucune information de paiement ne transite par nos serveurs — nous n'en avons pas.</p>
-        <p>La politique de confidentialité d'Apple s'applique aux transactions : <a href="https://www.apple.com/legal/privacy/fr-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🌐</span>
-        <span class="section-title">Pas de connexion internet</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul fonctionne entièrement hors ligne. L'application ne contacte aucun serveur externe, n'affiche aucune publicité et n'intègre aucun SDK tiers de traçage ou d'analyse.</p>
+        <p>L'application propose un achat unique pour débloquer la version Premium complète (mini-jeux et modules avancés). Les transactions et informations de facturation sont traitées de manière exclusivement sécurisée par les plateformes officielles :</p>
+        <ul class="custom">
+          <li><strong>Apple App Store</strong> via StoreKit (pour les appareils iOS)</li>
+          <li><strong>Google Play Store</strong> via la Facturation Google Play (pour les appareils Android)</li>
+        </ul>
+        <p>AstroCalcul n'a jamais accès à vos coordonnées bancaires ou informations de paiement.</p>
       </div>
     </section>
 
@@ -346,11 +363,10 @@
       <div class="section-body">
         <p>Conformément au COPPA (Children's Online Privacy Protection Act) et au RGPD européen, AstroCalcul :</p>
         <ul class="custom">
-          <li>Ne collecte aucune information personnelle identifiable</li>
-          <li>N'exige aucune inscription ni création de compte en ligne</li>
-          <li>Ne contient aucune publicité</li>
-          <li>Ne permet aucun contact social ou partage en ligne</li>
-          <li>N'utilise aucun cookie ni système de suivi</li>
+          <li>Ne collecte aucune information personnelle identifiable sans contrôle parental</li>
+          <li>Ne contient aucune fenêtre publicitaire ni système de ciblage commercial</li>
+          <li>Ne permet aucun contact social, salon de discussion ou partage en ligne ouvert aux enfants</li>
+          <li>N'utilise aucun cookie tiers à des fins de traçage publicitaire</li>
         </ul>
       </div>
     </section>
@@ -368,7 +384,9 @@
       </div>
     </section>
 
-  </div><div data-lang="nl">
+  </div>
+
+  <div data-lang="nl">
 
     <section>
       <div class="section-header">
@@ -376,9 +394,9 @@
         <span class="section-title">Onze belofte</span>
       </div>
       <div class="section-body">
-        <div class="badge-none">✓ Geen gegevens verzameld</div>
-        <p>AstroCalcul is een educatieve app voor kinderen van 6 tot 10 jaar. We nemen privacy serieus, vooral die van kinderen.</p>
-        <p><strong style="color:white">AstroCalcul verzamelt, verzendt of deelt geen persoonlijke gegevens.</strong> Alles werkt volledig lokaal op uw apparaat.</p>
+        <div class="badge-none">✓ Veiligheid & Privacy</div>
+        <p>AstroCalcul is een educatieve app voor kinderen van 6 tot 10 jaar. We nemen privacy serieus, vooral die van de allerjongsten.</p>
+        <p><strong style="color:white">AstroCalcul verzamelt, verkoopt of deelt geen persoonlijke gegevens voor commerciële doeleinden.</strong> De app biedt een volledig veilige omgeving zonder advertenties.</p>
       </div>
     </section>
 
@@ -388,15 +406,29 @@
         <span class="section-title">Lokaal opgeslagen gegevens</span>
       </div>
       <div class="section-body">
-        <p>De volgende gegevens worden uitsluitend opgeslagen op het apparaat via <code style="color:var(--accent)">UserDefaults</code> iOS:</p>
+        <p>Om de educatieve voortgang bij te houden zonder een verplicht online account aan te maken, worden de volgende gegevens uitsluitend op het apparaat van de gebruiker opgeslagen:</p>
         <ul class="custom">
           <li>Voornamen en avatars van kinderprofielen</li>
-          <li>Geschiedenis van oefensessies</li>
-          <li>Badges, niveaus en voortgang</li>
+          <li>Geschiedenis van oefensessies en succespercentages</li>
+          <li>Badges, niveaus en algemene voortgang</li>
           <li>Taal- en moeilijkheidsvoorkeuren</li>
           <li>AstroPieces-saldo per profiel</li>
         </ul>
-        <p>Deze gegevens verlaten het apparaat nooit en zijn voor niemand anders toegankelijk.</p>
+        <p>Deze informatie blijft onder uw exclusieve controle en wordt verwijderd als u de app deïnstalleert.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">☁️</span>
+        <span class="section-title">Diensten van derden en Synchronisatie (Firebase)</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul gebruikt de tools van <strong>Firebase (Google LLC)</strong> voor twee specifieke doeleinden:</p>
+        <ul class="custom">
+          <li><strong>Optionele synchronisatie:</strong> Indien geactiveerd door de ouders, worden profielen en scores versleuteld opgeslagen via Firebase om de voortgang op een ander apparaat in huis te herstellen.</li>
+          <li><strong>App-stabiliteit:</strong> We verzamelen anonieme technische rapporten (via Firebase Crashlytics) in het geval van een bug of onverwachte sluiting, om een snelle oplossing te garanderen. Er worden geen identificeerbare gegevens meegestuurd.</li>
+        </ul>
       </div>
     </section>
 
@@ -406,7 +438,7 @@
         <span class="section-title">Ouderlijk toezicht</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul heeft een ouderlijk toezichtsysteem beveiligd met Face ID of pincode. Gevoelige instellingen zijn alleen toegankelijk voor ouders.</p>
+        <p>AstroCalcul heeft een beveiligd ouderlijk toezichtsysteem. Gevoelige instellingen (profielbeheer, synchronisatie-instellingen, winkelaanpassingen) zijn alleen toegankelijk voor volwassenen.</p>
       </div>
     </section>
 
@@ -416,18 +448,12 @@
         <span class="section-title">In-app aankopen</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul biedt één in-app aankoop <strong style="color:white">AstroCalcul Premium</strong>. Deze aankoop wordt veilig verwerkt door Apple via StoreKit. Er zijn geen eigen servers betrokken.</p>
-        <p>Het privacybeleid van Apple is van toepassing: <a href="https://www.apple.com/legal/privacy/nl-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🌐</span>
-        <span class="section-title">Geen internetverbinding vereist</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul werkt volledig offline. De app maakt geen verbinding met externe servers, toont geen advertenties en bevat geen tracking-SDK's van derden.</p>
+        <p>De app biedt een eenmalige aankoop om de volledige Premium-versie te ontgrendelen. Transacties en facturatiegegevens worden exclusief en veilig verwerkt door de officiële platformen:</p>
+        <ul class="custom">
+          <li><strong>Apple App Store</strong> via StoreKit (voor iOS-apparaten)</li>
+          <li><strong>Google Play Store</strong> via Google Play-facturering (voor Android-apparaten)</li>
+        </ul>
+        <p>AstroCalcul heeft nooit toegang tot uw bankgegevens of betalingsinformatie.</p>
       </div>
     </section>
 
@@ -439,11 +465,10 @@
       <div class="section-body">
         <p>In overeenstemming met COPPA en de Europese AVG (GDPR):</p>
         <ul class="custom">
-          <li>Geen persoonlijk identificeerbare informatie verzameld</li>
-          <li>Geen online registratie of account vereist</li>
-          <li>Geen advertenties</li>
-          <li>Geen sociale functies of online delen</li>
-          <li>Geen cookies of trackingsystemen</li>
+          <li>Verzamelt geen persoonlijk identificeerbare informatie zonder ouderlijk toezicht</li>
+          <li>Bevat geen pop-upadvertenties of commerciële trackingsystemen</li>
+          <li>Staat geen sociaal contact, chatrooms of online delen toe voor kinderen</li>
+          <li>Gebruikt geen cookies van derden voor advertentietracking</li>
         </ul>
       </div>
     </section>
@@ -461,7 +486,9 @@
       </div>
     </section>
 
-  </div><div data-lang="en">
+  </div>
+
+  <div data-lang="en">
 
     <section>
       <div class="section-header">
@@ -469,9 +496,9 @@
         <span class="section-title">Our commitment</span>
       </div>
       <div class="section-body">
-        <div class="badge-none">✓ No data collected</div>
-        <p>AstroCalcul is an educational app designed for children aged 6 to 10. We take privacy seriously, especially children's privacy.</p>
-        <p><strong style="color:white">AstroCalcul does not collect, transmit, or share any personal data.</strong> Everything works entirely locally on your device.</p>
+        <div class="badge-none">✓ Safety & Privacy</div>
+        <p>AstroCalcul is an educational app designed for children aged 6 to 10. We take privacy seriously, especially for our youngest users.</p>
+        <p><strong style="color:white">AstroCalcul does not collect, sell, or share any personal data for advertising purposes.</strong> The game provides a completely safe, ad-free environment.</p>
       </div>
     </section>
 
@@ -481,15 +508,29 @@
         <span class="section-title">Locally stored data</span>
       </div>
       <div class="section-body">
-        <p>The following data is saved only on the device, using iOS <code style="color:var(--accent)">UserDefaults</code>:</p>
+        <p>To provide educational progress tracking without requiring an online account, the following data is saved exclusively on the user's device:</p>
         <ul class="custom">
           <li>Child profile names and avatars</li>
-          <li>Exercise session history</li>
-          <li>Badges, levels and progression</li>
+          <li>Exercise session history and success rates</li>
+          <li>Badges, levels, and overall progression</li>
           <li>Language and difficulty preferences</li>
           <li>AstroPièces balance per profile</li>
         </ul>
-        <p>This data never leaves the device and is not accessible to anyone else.</p>
+        <p>This information remains under your exclusive control and is deleted if you uninstall the application.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <span class="section-icon">☁️</span>
+        <span class="section-title">Third-Party Services and Synchronization (Firebase)</span>
+      </div>
+      <div class="section-body">
+        <p>AstroCalcul utilizes tools from <strong>Firebase (Google LLC)</strong> for two specific needs:</p>
+        <ul class="custom">
+          <li><strong>Optional Syncing:</strong> If enabled by parents, profiles and scores are backed up securely and encrypted via Firebase to allow progress recovery on another device within the household.</li>
+          <li><strong>App Stability:</strong> We collect anonymous technical data (via Firebase Crashlytics) in the event of a bug or unexpected crash to ensure rapid fixes. No personally identifiable information is included.</li>
+        </ul>
       </div>
     </section>
 
@@ -499,7 +540,7 @@
         <span class="section-title">Parental controls</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul includes a parental control system protected by Face ID or PIN code. Sensitive settings are only accessible to parents.</p>
+        <p>AstroCalcul features a secured parental control system. Sensitive parameters (profile management, synchronization configuration, shop adjustments) are strictly reserved for adults.</p>
       </div>
     </section>
 
@@ -509,18 +550,12 @@
         <span class="section-title">In-app purchases</span>
       </div>
       <div class="section-body">
-        <p>AstroCalcul offers a single in-app purchase <strong style="color:white">AstroCalcul Premium</strong> (non-consumable). This purchase is processed securely by Apple via StoreKit. No payment information passes through our servers — we don't have any.</p>
-        <p>Apple's privacy policy applies to transactions: <a href="https://www.apple.com/legal/privacy/en-ww/" target="_blank" style="color:var(--accent)">apple.com/legal/privacy</a></p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🌐</span>
-        <span class="section-title">No internet connection required</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul works entirely offline. The app does not contact any external servers, displays no advertising, and integrates no third-party tracking or analytics SDKs.</p>
+        <p>The application offers a single one-time purchase to unlock the complete Premium version (advanced mini-games and modules). Transactions and billing information are securely and exclusively handled by the official platforms:</p>
+        <ul class="custom">
+          <li><strong>Apple App Store</strong> via StoreKit (for iOS devices)</li>
+          <li><strong>Google Play Store</strong> via Google Play Billing (for Android devices)</li>
+        </ul>
+        <p>AstroCalcul never has access to your bank details or credit card information.</p>
       </div>
     </section>
 
@@ -530,13 +565,12 @@
         <span class="section-title">COPPA & GDPR compliance</span>
       </div>
       <div class="section-body">
-        <p>In compliance with COPPA and the European GDPR:</p>
+        <p>In compliance with COPPA (Children's Online Privacy Protection Act) and the European GDPR:</p>
         <ul class="custom">
-          <li>No personally identifiable information collected</li>
-          <li>No online registration or account required</li>
-          <li>No advertising</li>
-          <li>No social features or online sharing</li>
-          <li>No cookies or tracking systems</li>
+          <li>Does not collect any personally identifiable information without parental control</li>
+          <li>Contains no advertising pop-ups or commercial tracking systems</li>
+          <li>Does not allow any social interaction, chat rooms, or online sharing features for children</li>
+          <li>Does not use third-party cookies for advertising tracking</li>
         </ul>
       </div>
     </section>
