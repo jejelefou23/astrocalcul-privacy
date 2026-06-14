@@ -1,630 +1,225 @@
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AstroCalcul — Politique de confidentialité</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:        #060818;
-      --surface:   #0d1230;
-      --border:    rgba(100,140,255,0.15);
-      --accent:    #7eb3ff;
-      --yellow:    #ffd84d;
-      --text:      #c8d4f0;
-      --muted:     rgba(200,212,240,0.45);
-      --radius:    16px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 1.75;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── Étoiles ── */
-    .stars {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    }
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
-    }
-    @keyframes twinkle {
-      from { opacity: var(--a1, 0.1); transform: scale(1); }
-      to   { opacity: var(--a2, 0.6); transform: scale(1.3); }
-    }
-
-    /* ── Header & Logo ── */
-    header {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 60px 24px 48px;
-    }
-    .app-logo {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      border-radius: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 24px rgba(126, 179, 255, 0.2);
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-12px); }
-    }
-    header h1 {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 700;
-      color: var(--yellow);
-      letter-spacing: -0.5px;
-      margin-bottom: 10px;
-    }
-    header p {
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 300;
-    }
-
-    /* ── Layout ── */
-    main {
-      position: relative; z-index: 1;
-      max-width: 740px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-    }
-
-    /* ── Carte info rapide ── */
-    .quick-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-bottom: 48px;
-    }
-    .qi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    .qi-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
-    .qi-label { font-size: 11px; color: var(--muted); text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 3px; }
-    .qi-value { font-size: 14px; font-weight: 600; color: white; }
-
-    /* ── Sections ── */
-    section {
-      margin-bottom: 36px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .section-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-icon { font-size: 22px; }
-    .section-title {
-      font-family: 'Space Mono', monospace;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.02em;
-    }
-    .section-body {
-      padding: 20px 24px 24px;
-    }
-    .section-body p { margin-bottom: 12px; color: var(--text); font-size: 15px; }
-    .section-body p:last-child { margin-bottom: 0; }
-
-    /* ── Liste à puces custom ── */
-    ul.custom {
-      list-style: none;
-      padding: 0;
-      margin: 12px 0;
-    }
-    ul.custom li {
-      padding: 8px 0 8px 28px;
-      position: relative;
-      font-size: 15px;
-      color: var(--text);
-      border-bottom: 1px solid rgba(100,140,255,0.07);
-    }
-    ul.custom li:last-child { border-bottom: none; }
-    ul.custom li::before {
-      content: '→';
-      position: absolute; left: 0;
-      color: var(--accent);
-      font-family: 'Space Mono', monospace;
-    }
-
-    /* ── Badge "Aucune donnée" ── */
-    .badge-none {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(80,220,130,0.12);
-      border: 1px solid rgba(80,220,130,0.3);
-      border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #50dc82;
-      margin-bottom: 16px;
-    }
-
-    /* ── Contact ── */
-    .contact-box {
-      background: linear-gradient(135deg,
-        rgba(126,179,255,0.08),
-        rgba(255,216,77,0.06));
-      border: 1px solid rgba(126,179,255,0.25);
-      border-radius: var(--radius);
-      padding: 24px;
-      text-align: center;
-    }
-    .contact-box p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
-    .contact-box a {
-      color: var(--yellow);
-      text-decoration: none;
-      font-weight: 600;
-      font-family: 'Space Mono', monospace;
-      font-size: 14px;
-    }
-    .contact-box a:hover { text-decoration: underline; }
-
-    /* ── Footer ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 0 24px 48px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    footer span { color: var(--accent); }
-
-    /* ── Langue selector ── */
-    .lang-bar {
-      position: relative; z-index: 1;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 24px 0 0;
-      margin-bottom: -12px;
-    }
-    .lang-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 13px;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.2s;
-    }
-    .lang-btn.active, .lang-btn:hover {
-      background: rgba(126,179,255,0.12);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── Sections multilingues ── */
-    [data-lang] { display: none; }
-    [data-lang].visible { display: block; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroCalcul — Politique de confidentialité</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #333; }
+h1 { color: #1A1A66; border-bottom: 3px solid #4444AA; padding-bottom: 12px; }
+h2 { color: #4444AA; margin-top: 32px; }
+h3 { color: #555; }
+.lang-switch { text-align: right; margin-bottom: 20px; }
+.lang-switch a { margin-left: 12px; color: #4444AA; text-decoration: none; padding: 6px 12px; border: 1px solid #4444AA; border-radius: 6px; }
+.lang-switch a.active { background: #4444AA; color: white; }
+.section { display: none; }
+.section.active { display: block; }
+.box { background: #f5f7ff; border-left: 4px solid #4444AA; padding: 16px 20px; margin: 20px 0; border-radius: 6px; }
+.warning { background: #fff8e1; border-left: 4px solid #f9a825; padding: 16px 20px; margin: 20px 0; border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+th { background: #f5f7ff; }
+code { background: #eee; padding: 2px 6px; border-radius: 4px; }
+</style>
 </head>
 <body>
-
-<div class="stars" id="stars"></div>
-
-<div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('fr')">🇫🇷 Français</button>
-  <button class="lang-btn" onclick="setLang('nl')">🇧🇪 Nederlands</button>
-  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+ 
+<div class="lang-switch">
+  <a href="#" id="btn-fr" class="active" onclick="show('fr');return false;">🇫🇷 FR</a>
+  <a href="#" id="btn-nl" onclick="show('nl');return false;">🇧🇪 NL</a>
+  <a href="#" id="btn-en" onclick="show('en');return false;">🇬🇧 EN</a>
 </div>
-
-<header>
-  <img src="logo.png" alt="AstroCalcul Logo" class="app-logo" onerror="this.style.display='none';">
-  <h1>AstroCalcul</h1>
-  <p data-lang="fr" class="visible">Politique de confidentialité</p>
-  <p data-lang="nl">Privacybeleid</p>
-  <p data-lang="en">Privacy Policy</p>
-</header>
-
-<main>
-
-  <div class="quick-info">
-    <div class="qi-card">
-      <div class="qi-icon">📅</div>
-      <div>
-        <div class="qi-label" data-lang="fr" class="visible">Dernière mise à jour</div>
-        <div class="qi-label" data-lang="nl">Laatste update</div>
-        <div class="qi-label" data-lang="en">Last updated</div>
-        <div class="qi-value" data-lang="fr" class="visible">Mai 2026</div>
-        <div class="qi-value" data-lang="nl">Mei 2026</div>
-        <div class="qi-value" data-lang="en">May 2026</div>
-      </div>
-    </div>
-    <div class="qi-card">
-      <div class="qi-icon">👶</div>
-      <div>
-        <div class="qi-label" data-lang="fr" class="visible">Public cible</div>
-        <div class="qi-label" data-lang="nl">Doelgroep</div>
-        <div class="qi-label" data-lang="en">Target audience</div>
-        <div class="qi-value" data-lang="fr" class="visible">Enfants 6–10 ans</div>
-        <div class="qi-value" data-lang="nl">Kinderen 6–10 jaar</div>
-        <div class="qi-value" data-lang="en">Children 6–10 years</div>
-      </div>
-    </div>
-    <div class="qi-card">
-      <div class="qi-icon">🌍</div>
-      <div>
-        <div class="qi-label">Langues</div>
-        <div class="qi-value">FR · NL · EN</div>
-      </div>
-    </div>
-  </div>
-
-  <div data-lang="fr" class="visible">
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛡️</span>
-        <span class="section-title">Notre engagement</span>
-      </div>
-      <div class="section-body">
-        <div class="badge-none">✓ Sécurité & Confidentialité</div>
-        <p>AstroCalcul est une application éducative conçue pour les enfants de 6 à 10 ans. Nous prenons la protection de la vie privée au sérieux, en particulier celle des plus jeunes.</p>
-        <p><strong style="color:white">AstroCalcul ne collecte, ne vend ni ne partage aucune donnée personnelle à des fins publicitaires.</strong> L'environnement est entièrement sécurisé et sans publicité.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">💾</span>
-        <span class="section-title">Données stockées localement</span>
-      </div>
-      <div class="section-body">
-        <p>Pour assurer le suivi pédagogique sans créer de compte en ligne obligatoire, les données suivantes sont sauvegardées uniquement sur l'appareil de l'utilisateur :</p>
-        <ul class="custom">
-          <li>Prénoms et avatars des profils enfants</li>
-          <li>Historique des sessions d'exercices et taux de réussite</li>
-          <li>Badges, niveaux et progression globale</li>
-          <li>Préférences de langue et de difficulté</li>
-          <li>Solde AstroPièces par profil</li>
-        </ul>
-        <p>Ces informations restent sous votre contrôle exclusif et sont effacées si vous désinstallez l'application.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">☁️</span>
-        <span class="section-title">Services tiers et Synchronisation (Firebase)</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul utilise les outils de <strong>Firebase (Google LLC)</strong> pour deux besoins précis :</p>
-        <ul class="custom">
-          <li><strong>Synchronisation optionnelle :</strong> Si les parents l'activent, les profils et scores sont sauvegardés de manière chiffrée via Firebase pour retrouver sa progression sur un autre appareil du foyer.</li>
-          <li><strong>Stabilité de l'application :</strong> Nous collectons des rapports techniques anonymes (via Firebase Crashlytics) en cas de bug ou de fermeture inattendue de l'application, afin d'assurer une correction rapide. Aucune donnée nominative n'est incluse.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🔒</span>
-        <span class="section-title">Contrôle parental</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul intègre un système de contrôle parental protégé. Les paramètres sensibles (gestion des profils, configuration de la synchronisation, ajustements de la boutique) ne sont accessibles qu'aux adultes.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛒</span>
-        <span class="section-title">Achats intégrés</span>
-      </div>
-      <div class="section-body">
-        <p>L'application propose un achat unique pour débloquer la version Premium complète (mini-jeux et modules avancés). Les transactions et informations de facturation sont traitées de manière exclusivement sécurisée par les plateformes officielles :</p>
-        <ul class="custom">
-          <li><strong>Apple App Store</strong> via StoreKit (pour les appareils iOS)</li>
-          <li><strong>Google Play Store</strong> via la Facturation Google Play (pour les appareils Android)</li>
-        </ul>
-        <p>AstroCalcul n'a jamais accès à vos coordonnées bancaires ou informations de paiement.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">👨‍👩‍👧</span>
-        <span class="section-title">Conformité COPPA & RGPD</span>
-      </div>
-      <div class="section-body">
-        <p>Conformément au COPPA (Children's Online Privacy Protection Act) et au RGPD européen, AstroCalcul :</p>
-        <ul class="custom">
-          <li>Ne collecte aucune information personnelle identifiable sans contrôle parental</li>
-          <li>Ne contient aucune fenêtre publicitaire ni système de ciblage commercial</li>
-          <li>Ne permet aucun contact social, salon de discussion ou partage en ligne ouvert aux enfants</li>
-          <li>N'utilise aucun cookie tiers à des fins de traçage publicitaire</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">✉️</span>
-        <span class="section-title">Contact</span>
-      </div>
-      <div class="section-body">
-        <div class="contact-box">
-          <p>Pour toute question concernant cette politique de confidentialité :</p>
-          <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <div data-lang="nl">
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛡️</span>
-        <span class="section-title">Onze belofte</span>
-      </div>
-      <div class="section-body">
-        <div class="badge-none">✓ Veiligheid & Privacy</div>
-        <p>AstroCalcul is een educatieve app voor kinderen van 6 tot 10 jaar. We nemen privacy serieus, vooral die van de allerjongsten.</p>
-        <p><strong style="color:white">AstroCalcul verzamelt, verkoopt of deelt geen persoonlijke gegevens voor commerciële doeleinden.</strong> De app biedt een volledig veilige omgeving zonder advertenties.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">💾</span>
-        <span class="section-title">Lokaal opgeslagen gegevens</span>
-      </div>
-      <div class="section-body">
-        <p>Om de educatieve voortgang bij te houden zonder een verplicht online account aan te maken, worden de volgende gegevens uitsluitend op het apparaat van de gebruiker opgeslagen:</p>
-        <ul class="custom">
-          <li>Voornamen en avatars van kinderprofielen</li>
-          <li>Geschiedenis van oefensessies en succespercentages</li>
-          <li>Badges, niveaus en algemene voortgang</li>
-          <li>Taal- en moeilijkheidsvoorkeuren</li>
-          <li>AstroPieces-saldo per profiel</li>
-        </ul>
-        <p>Deze informatie blijft onder uw exclusieve controle en wordt verwijderd als u de app deïnstalleert.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">☁️</span>
-        <span class="section-title">Diensten van derden en Synchronisatie (Firebase)</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul gebruikt de tools van <strong>Firebase (Google LLC)</strong> voor twee specifieke doeleinden:</p>
-        <ul class="custom">
-          <li><strong>Optionele synchronisatie:</strong> Indien geactiveerd door de ouders, worden profielen en scores versleuteld opgeslagen via Firebase om de voortgang op een ander apparaat in huis te herstellen.</li>
-          <li><strong>App-stabiliteit:</strong> We verzamelen anonieme technische rapporten (via Firebase Crashlytics) in het geval van een bug of onverwachte sluiting, om een snelle oplossing te garanderen. Er worden geen identificeerbare gegevens meegestuurd.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🔒</span>
-        <span class="section-title">Ouderlijk toezicht</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul heeft een beveiligd ouderlijk toezichtsysteem. Gevoelige instellingen (profielbeheer, synchronisatie-instellingen, winkelaanpassingen) zijn alleen toegankelijk voor volwassenen.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛒</span>
-        <span class="section-title">In-app aankopen</span>
-      </div>
-      <div class="section-body">
-        <p>De app biedt een eenmalige aankoop om de volledige Premium-versie te ontgrendelen. Transacties en facturatiegegevens worden exclusief en veilig verwerkt door de officiële platformen:</p>
-        <ul class="custom">
-          <li><strong>Apple App Store</strong> via StoreKit (voor iOS-apparaten)</li>
-          <li><strong>Google Play Store</strong> via Google Play-facturering (voor Android-apparaten)</li>
-        </ul>
-        <p>AstroCalcul heeft nooit toegang tot uw bankgegevens of betalingsinformatie.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">👨‍👩‍👧</span>
-        <span class="section-title">COPPA & AVG conformiteit</span>
-      </div>
-      <div class="section-body">
-        <p>In overeenstemming met COPPA en de Europese AVG (GDPR):</p>
-        <ul class="custom">
-          <li>Verzamelt geen persoonlijk identificeerbare informatie zonder ouderlijk toezicht</li>
-          <li>Bevat geen pop-upadvertenties of commerciële trackingsystemen</li>
-          <li>Staat geen sociaal contact, chatrooms of online delen toe voor kinderen</li>
-          <li>Gebruikt geen cookies van derden voor advertentietracking</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">✉️</span>
-        <span class="section-title">Contact</span>
-      </div>
-      <div class="section-body">
-        <div class="contact-box">
-          <p>Voor vragen over dit privacybeleid:</p>
-          <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <div data-lang="en">
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛡️</span>
-        <span class="section-title">Our commitment</span>
-      </div>
-      <div class="section-body">
-        <div class="badge-none">✓ Safety & Privacy</div>
-        <p>AstroCalcul is an educational app designed for children aged 6 to 10. We take privacy seriously, especially for our youngest users.</p>
-        <p><strong style="color:white">AstroCalcul does not collect, sell, or share any personal data for advertising purposes.</strong> The game provides a completely safe, ad-free environment.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">💾</span>
-        <span class="section-title">Locally stored data</span>
-      </div>
-      <div class="section-body">
-        <p>To provide educational progress tracking without requiring an online account, the following data is saved exclusively on the user's device:</p>
-        <ul class="custom">
-          <li>Child profile names and avatars</li>
-          <li>Exercise session history and success rates</li>
-          <li>Badges, levels, and overall progression</li>
-          <li>Language and difficulty preferences</li>
-          <li>AstroPièces balance per profile</li>
-        </ul>
-        <p>This information remains under your exclusive control and is deleted if you uninstall the application.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">☁️</span>
-        <span class="section-title">Third-Party Services and Synchronization (Firebase)</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul utilizes tools from <strong>Firebase (Google LLC)</strong> for two specific needs:</p>
-        <ul class="custom">
-          <li><strong>Optional Syncing:</strong> If enabled by parents, profiles and scores are backed up securely and encrypted via Firebase to allow progress recovery on another device within the household.</li>
-          <li><strong>App Stability:</strong> We collect anonymous technical data (via Firebase Crashlytics) in the event of a bug or unexpected crash to ensure rapid fixes. No personally identifiable information is included.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🔒</span>
-        <span class="section-title">Parental controls</span>
-      </div>
-      <div class="section-body">
-        <p>AstroCalcul features a secured parental control system. Sensitive parameters (profile management, synchronization configuration, shop adjustments) are strictly reserved for adults.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">🛒</span>
-        <span class="section-title">In-app purchases</span>
-      </div>
-      <div class="section-body">
-        <p>The application offers a single one-time purchase to unlock the complete Premium version (advanced mini-games and modules). Transactions and billing information are securely and exclusively handled by the official platforms:</p>
-        <ul class="custom">
-          <li><strong>Apple App Store</strong> via StoreKit (for iOS devices)</li>
-          <li><strong>Google Play Store</strong> via Google Play Billing (for Android devices)</li>
-        </ul>
-        <p>AstroCalcul never has access to your bank details or credit card information.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">👨‍👩‍👧</span>
-        <span class="section-title">COPPA & GDPR compliance</span>
-      </div>
-      <div class="section-body">
-        <p>In compliance with COPPA (Children's Online Privacy Protection Act) and the European GDPR:</p>
-        <ul class="custom">
-          <li>Does not collect any personally identifiable information without parental control</li>
-          <li>Contains no advertising pop-ups or commercial tracking systems</li>
-          <li>Does not allow any social interaction, chat rooms, or online sharing features for children</li>
-          <li>Does not use third-party cookies for advertising tracking</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <span class="section-icon">✉️</span>
-        <span class="section-title">Contact</span>
-      </div>
-      <div class="section-body">
-        <div class="contact-box">
-          <p>For any questions regarding this privacy policy:</p>
-          <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a>
-        </div>
-      </div>
-    </section>
-
-  </div></main>
-
-<footer>
-  <p>© 2026 Astro Labs · <span>contact.astrolabs.be@gmail.com</span></p>
-</footer>
-
+ 
+<!-- ============ FRANÇAIS ============ -->
+<div id="fr" class="section active">
+ 
+<h1>🚀 AstroCalcul — Politique de confidentialité</h1>
+<p><em>Dernière mise à jour : juin 2026 · Public cible : enfants 6–10 ans</em></p>
+ 
+<div class="box">
+<strong>En résumé :</strong> AstroCalcul est une application éducative sans publicité. Nous collectons un minimum de données nécessaires au fonctionnement de l'app, principalement stockées sur votre appareil. La synchronisation cloud est <strong>optionnelle</strong> et ne s'active que si vous vous connectez avec un compte Google. Nous ne vendons ni ne partageons aucune donnée à des fins publicitaires ou commerciales.
+</div>
+ 
+<h2>1. Données collectées et stockées localement</h2>
+<p>Par défaut, toutes les données sont stockées <strong>uniquement sur l'appareil</strong> :</p>
+<ul>
+<li>Prénoms et avatars des profils enfants</li>
+<li>Historique des sessions d'exercices (scores, erreurs par table, dates)</li>
+<li>Badges, niveaux, jours d'exploration, AstroPièces</li>
+<li>Préférences (langue, niveau de difficulté, tables actives)</li>
+</ul>
+<p>Ces données sont supprimées en désinstallant l'application.</p>
+ 
+<h2>2. Données envoyées au cloud (Firebase) — uniquement si synchronisation activée</h2>
+<p>Si un parent active la synchronisation en se connectant avec son compte Google, les données suivantes sont envoyées vers les serveurs <strong>Firebase (Google LLC)</strong> via une connexion sécurisée HTTPS/TLS :</p>
+ 
+<table>
+<tr><th>Service Firebase</th><th>Données envoyées</th><th>Finalité</th></tr>
+<tr><td>Firestore</td><td>Profils enfants, historique des sessions, badges, progression</td><td>Synchronisation multi-appareils</td></tr>
+<tr><td>Authentication</td><td>Email Google du parent, identifiant unique (UID)</td><td>Identifier le compte pour la synchronisation</td></tr>
+<tr><td>Analytics</td><td>Événements d'usage anonymes, modèle d'appareil, version OS, langue</td><td>Améliorer l'application</td></tr>
+<tr><td>Crashlytics</td><td>Rapports de plantages, état technique de l'appareil</td><td>Corriger les bugs</td></tr>
+</table>
+ 
+<div class="warning">
+<strong>Important :</strong> Les données stockées sur Firestore sont chiffrées <strong>en transit</strong> (HTTPS) et <strong>au repos</strong> sur les serveurs Google, conformément aux standards de sécurité Google Cloud. Aucun mot de passe n'est stocké.
+</div>
+ 
+<h2>3. Achats intégrés</h2>
+<p>L'achat unique Premium est traité exclusivement par les plateformes officielles : <strong>Google Play Billing</strong> (Android) ou <strong>StoreKit Apple</strong> (iOS). AstroCalcul ne reçoit ni ne stocke aucune information bancaire ou de carte de crédit.</p>
+ 
+<h2>4. Vos droits (RGPD)</h2>
+<p>Conformément au RGPD, vous pouvez à tout moment :</p>
+<ul>
+<li><strong>Accéder</strong> à vos données depuis l'application</li>
+<li><strong>Modifier</strong> les profils et préférences depuis l'application</li>
+<li><strong>Supprimer</strong> vos données — voir notre <a href="delete-account.html">page de suppression de compte</a></li>
+<li><strong>Vous opposer</strong> à la collecte en désactivant la synchronisation Google</li>
+</ul>
+ 
+<h2>5. Conformité COPPA (enfants)</h2>
+<p>L'application est conçue pour les enfants mais l'activation de la synchronisation Google nécessite l'intervention d'un parent (compte Google adulte). Aucune information n'est collectée directement auprès de l'enfant sans l'autorisation parentale implicite via la connexion du compte Google parental.</p>
+<p>AstroCalcul ne contient <strong>aucune publicité, aucun chat, aucun partage social, aucun lien externe</strong> accessible à l'enfant.</p>
+ 
+<h2>6. Durée de conservation</h2>
+<p>Les données sont conservées tant que votre compte Google reste lié à l'application. Vous pouvez demander leur suppression à tout moment via notre page dédiée. Les données locales sont effacées lors de la désinstallation.</p>
+ 
+<h2>7. Contact</h2>
+<p>Pour toute question : <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a></p>
+ 
+</div>
+ 
+<!-- ============ NEDERLANDS ============ -->
+<div id="nl" class="section">
+ 
+<h1>🚀 AstroCalcul — Privacybeleid</h1>
+<p><em>Laatste update: juni 2026 · Doelgroep: kinderen 6–10 jaar</em></p>
+ 
+<div class="box">
+<strong>Samenvatting:</strong> AstroCalcul is een educatieve app zonder reclame. We verzamelen alleen de gegevens die nodig zijn voor de werking van de app, voornamelijk lokaal opgeslagen op uw apparaat. Cloud-synchronisatie is <strong>optioneel</strong> en wordt alleen geactiveerd als u zich aanmeldt met een Google-account. We verkopen of delen geen gegevens voor reclame- of commerciële doeleinden.
+</div>
+ 
+<h2>1. Lokaal verzamelde en opgeslagen gegevens</h2>
+<p>Standaard worden alle gegevens <strong>alleen op het apparaat</strong> opgeslagen:</p>
+<ul>
+<li>Voornamen en avatars van kinderprofielen</li>
+<li>Geschiedenis van oefensessies (scores, fouten per tafel, datums)</li>
+<li>Badges, niveaus, ontdekkingsdagen, AstroMunten</li>
+<li>Voorkeuren (taal, moeilijkheidsgraad, actieve tafels)</li>
+</ul>
+<p>Deze gegevens worden verwijderd bij het verwijderen van de app.</p>
+ 
+<h2>2. Naar de cloud verzonden gegevens (Firebase) — alleen als synchronisatie is ingeschakeld</h2>
+<p>Als een ouder de synchronisatie inschakelt door zich aan te melden met zijn Google-account, worden de volgende gegevens via een beveiligde HTTPS/TLS-verbinding naar de <strong>Firebase-servers (Google LLC)</strong> verzonden:</p>
+ 
+<table>
+<tr><th>Firebase-service</th><th>Verzonden gegevens</th><th>Doel</th></tr>
+<tr><td>Firestore</td><td>Kinderprofielen, sessiegeschiedenis, badges, voortgang</td><td>Synchronisatie tussen apparaten</td></tr>
+<tr><td>Authentication</td><td>Google-e-mailadres van ouder, unieke identifier (UID)</td><td>Account identificeren voor synchronisatie</td></tr>
+<tr><td>Analytics</td><td>Anonieme gebruiksgebeurtenissen, apparaatmodel, OS-versie, taal</td><td>De app verbeteren</td></tr>
+<tr><td>Crashlytics</td><td>Crashrapporten, technische apparaatstatus</td><td>Bugs oplossen</td></tr>
+</table>
+ 
+<div class="warning">
+<strong>Belangrijk:</strong> Gegevens die op Firestore worden opgeslagen, worden versleuteld <strong>tijdens overdracht</strong> (HTTPS) en <strong>in rust</strong> op Google-servers, conform de Google Cloud-beveiligingsnormen. Er worden geen wachtwoorden opgeslagen.
+</div>
+ 
+<h2>3. In-app aankopen</h2>
+<p>De eenmalige Premium-aankoop wordt exclusief verwerkt door de officiële platforms: <strong>Google Play Billing</strong> (Android) of <strong>Apple StoreKit</strong> (iOS). AstroCalcul ontvangt of bewaart geen bank- of creditcardgegevens.</p>
+ 
+<h2>4. Uw rechten (AVG)</h2>
+<p>Conform de AVG kunt u op elk moment:</p>
+<ul>
+<li><strong>Toegang</strong> tot uw gegevens vanuit de app</li>
+<li><strong>Wijzigen</strong> van profielen en voorkeuren in de app</li>
+<li><strong>Verwijderen</strong> van uw gegevens — zie onze <a href="delete-account.html">pagina voor accountverwijdering</a></li>
+<li><strong>Bezwaar maken</strong> tegen de verzameling door Google-synchronisatie uit te schakelen</li>
+</ul>
+ 
+<h2>5. COPPA-conformiteit (kinderen)</h2>
+<p>De app is ontworpen voor kinderen, maar het activeren van Google-synchronisatie vereist tussenkomst van een ouder (volwassen Google-account). Er worden geen gegevens rechtstreeks bij het kind verzameld zonder de impliciete ouderlijke toestemming via de aanmelding van het ouderlijke Google-account.</p>
+<p>AstroCalcul bevat <strong>geen reclame, geen chat, geen sociale deling, geen externe links</strong> die toegankelijk zijn voor het kind.</p>
+ 
+<h2>6. Bewaartermijn</h2>
+<p>Gegevens worden bewaard zolang uw Google-account aan de app gekoppeld blijft. U kunt op elk moment de verwijdering aanvragen via onze speciale pagina. Lokale gegevens worden gewist bij het verwijderen van de app.</p>
+ 
+<h2>7. Contact</h2>
+<p>Voor vragen: <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a></p>
+ 
+</div>
+ 
+<!-- ============ ENGLISH ============ -->
+<div id="en" class="section">
+ 
+<h1>🚀 AstroCalcul — Privacy Policy</h1>
+<p><em>Last updated: June 2026 · Target audience: children 6–10 years</em></p>
+ 
+<div class="box">
+<strong>In summary:</strong> AstroCalcul is an ad-free educational app. We collect only the minimum data necessary for the app's functioning, mostly stored on your device. Cloud synchronization is <strong>optional</strong> and only activates if you sign in with a Google account. We do not sell or share any data for advertising or commercial purposes.
+</div>
+ 
+<h2>1. Data collected and stored locally</h2>
+<p>By default, all data is stored <strong>only on the device</strong>:</p>
+<ul>
+<li>First names and avatars of child profiles</li>
+<li>Exercise session history (scores, errors per table, dates)</li>
+<li>Badges, levels, exploration days, AstroCoins</li>
+<li>Preferences (language, difficulty level, active tables)</li>
+</ul>
+<p>This data is deleted when the app is uninstalled.</p>
+ 
+<h2>2. Data sent to the cloud (Firebase) — only if sync is enabled</h2>
+<p>If a parent enables synchronization by signing in with their Google account, the following data is sent to <strong>Firebase servers (Google LLC)</strong> via a secure HTTPS/TLS connection:</p>
+ 
+<table>
+<tr><th>Firebase service</th><th>Data sent</th><th>Purpose</th></tr>
+<tr><td>Firestore</td><td>Child profiles, session history, badges, progress</td><td>Multi-device synchronization</td></tr>
+<tr><td>Authentication</td><td>Parent's Google email, unique identifier (UID)</td><td>Identify account for sync</td></tr>
+<tr><td>Analytics</td><td>Anonymous usage events, device model, OS version, language</td><td>App improvement</td></tr>
+<tr><td>Crashlytics</td><td>Crash reports, device technical state</td><td>Fix bugs</td></tr>
+</table>
+ 
+<div class="warning">
+<strong>Important:</strong> Data stored on Firestore is encrypted <strong>in transit</strong> (HTTPS) and <strong>at rest</strong> on Google servers, in accordance with Google Cloud security standards. No passwords are stored.
+</div>
+ 
+<h2>3. In-app purchases</h2>
+<p>The one-time Premium purchase is handled exclusively by the official platforms: <strong>Google Play Billing</strong> (Android) or <strong>Apple StoreKit</strong> (iOS). AstroCalcul never receives or stores any banking or credit card information.</p>
+ 
+<h2>4. Your rights (GDPR)</h2>
+<p>In accordance with GDPR, you can at any time:</p>
+<ul>
+<li><strong>Access</strong> your data from the app</li>
+<li><strong>Modify</strong> profiles and preferences from the app</li>
+<li><strong>Delete</strong> your data — see our <a href="delete-account.html">account deletion page</a></li>
+<li><strong>Object</strong> to collection by disabling Google sync</li>
+</ul>
+ 
+<h2>5. COPPA compliance (children)</h2>
+<p>The app is designed for children, but enabling Google sync requires parental intervention (adult Google account). No information is collected directly from the child without implicit parental consent via the parent's Google account sign-in.</p>
+<p>AstroCalcul contains <strong>no advertising, no chat, no social sharing, no external links</strong> accessible to the child.</p>
+ 
+<h2>6. Data retention</h2>
+<p>Data is retained as long as your Google account remains linked to the app. You can request deletion at any time via our dedicated page. Local data is erased when the app is uninstalled.</p>
+ 
+<h2>7. Contact</h2>
+<p>For any questions: <a href="mailto:contact.astrolabs.be@gmail.com">contact.astrolabs.be@gmail.com</a></p>
+ 
+</div>
+ 
+<p style="text-align:center;margin-top:60px;color:#888;font-size:13px;">© 2026 Astro Labs · contact.astrolabs.be@gmail.com</p>
+ 
 <script>
-  // Étoiles
-  const container = document.getElementById('stars');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%; top:${Math.random()*100}%;
-      --d:${2+Math.random()*4}s;
-      --a1:${0.05+Math.random()*0.15};
-      --a2:${0.3+Math.random()*0.5};
-      animation-delay:${Math.random()*5}s;
-    `;
-    container.appendChild(s);
-  }
-
-  // Langue
-  function setLang(lang) {
-    document.querySelectorAll('[data-lang]').forEach(el => {
-      el.classList.toggle('visible', el.dataset.lang === lang);
-    });
-    document.querySelectorAll('.lang-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', ['fr','nl','en'][i] === lang);
-    });
-  }
-
-  // Détecter langue navigateur
-  const browserLang = navigator.language.slice(0,2);
-  if (['nl','en'].includes(browserLang)) setLang(browserLang);
+function show(lang) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.lang-switch a').forEach(a => a.classList.remove('active'));
+  document.getElementById(lang).classList.add('active');
+  document.getElementById('btn-' + lang).classList.add('active');
+}
 </script>
+ 
 </body>
 </html>
+ 
